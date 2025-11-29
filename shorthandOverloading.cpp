@@ -26,5 +26,5 @@ class Marks {
         //ovrloading -= using friend function : here the current object will not be passed implicitly. So we need to specify it as a parameter.
         friend void operator-=(Marks &curobj, int ufmDeduction) {
             curobj.mark -= ufmDeduction;
-        } 
+        } //complete this tomorrow
 };
