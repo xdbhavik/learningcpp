@@ -28,3 +28,7 @@ class Marks {
             curobj.mark -= ufmDeduction;
         } //complete this tomorrow
 };
+
+int main() {
+    return 0;
+}
