@@ -34,12 +34,13 @@ public:
     void signUp();
     void forgot();
     void changePass();
+    void deleteAccount();
 } obj;
 
 int main() {
     char choice = ' ';
     while (choice != '4') {
-        cout << "\n1- Login\n2- Sign Up\n3- Forgot Password\n4- Change Password\n5- Exit" << endl;
+        cout << "\n1- Login\n2- Sign Up\n3- Forgot Password\n4- Change Password\n5- Delete Account\n6- Exit" << endl;
         cout << "Enter Your Choice :: ";
         cin >> choice;
         cin.ignore(); 
@@ -49,7 +50,8 @@ int main() {
             case '2': obj.signUp(); break;
             case '3': obj.forgot(); break;
             case '4': obj.changePass(); break;
-            case '5': return 0;
+            case '5': obj.deleteAccount(); break;
+            case '6': return 0;
             default: cout << "Invalid Selection!";
         }
     }
@@ -130,6 +132,7 @@ void temp::forgot() {
 void temp :: changePass() {
     string newPass;
     bool found = false;
+cout << "\n--- CHANGE PASSWORD ---" << endl;
     cout << "\nEnter username: ";
     getline(cin, searchName);
     cout << "Enter email: ";
@@ -158,6 +161,42 @@ void temp :: changePass() {
 
     if(found) {
         cout << "\nPassword Updated Successfully!"<< endl;
+    } else {
+        cout << "\nUser Not Found" << endl;
+    }
+
+}
+
+void temp :: deleteAccount() {
+    bool found = false;
+cout << "\n--- DELETE ACCOUNT ---" << endl;
+    cout << "\nEnter username: ";
+    getline(cin, searchName);
+    cout << "Enter email: ";
+    getline(cin, searchEmail);
+    cout << "Enter password : ";
+    searchPass = getPass();
+
+    file.open("loginData.txt", ios::in);
+    tempFile.open("temp.txt", ios::out);
+    while (getline(file, userName, '*') && getline(file, email, '*') && getline(file, password, '\n')) {
+        if (userName == searchName && email == searchEmail && password == searchPass) {
+            found = true;
+            continue;
+        } else {
+            tempFile << userName << "*" << email << "*" << password << endl;
+        }
+
+    }
+
+    file.close();
+    tempFile.close();
+
+    remove("loginData.txt");
+    rename("temp.txt", "loginData.txt");
+
+    if(found) {
+        cout << "\nAccount Deleted Successfully!"<< endl;
     } else {
         cout << "\nUser Not Found" << endl;
     }
