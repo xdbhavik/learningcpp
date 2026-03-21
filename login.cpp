@@ -33,7 +33,7 @@ public:
     void login();
     void signUp();
     void forgot();
-    // void changePassword(); // NEW FEATURE
+    void changePass();
 } obj;
 
 int main() {
@@ -48,7 +48,7 @@ int main() {
             case '1': obj.login(); break;
             case '2': obj.signUp(); break;
             case '3': obj.forgot(); break;
-            // case '4': obj.changePassword(); break;
+            case '4': obj.changePass(); break;
             case '5': return 0;
             default: cout << "Invalid Selection!";
         }
@@ -125,4 +125,41 @@ void temp::forgot() {
     }
     file.close();
     if (!found) cout << "Record not found!";
+}
+
+void temp :: changePass() {
+    string newPass;
+    bool found = false;
+    cout << "\nEnter username: ";
+    getline(cin, searchName);
+    cout << "Enter email: ";
+    getline(cin, searchEmail);
+
+    file.open("loginData.txt", ios::in);
+    tempFile.open("temp.txt", ios::out);
+    while (getline(file, userName, '*') && getline(file, email, '*') && getline(file, password, '\n')) {
+        if (userName == searchName && email == searchEmail) {
+            cout << "Acoount Verified!\nEnter New Password : ";
+            newPass = getPass();
+            tempFile << userName << "*" << email << "*" << newPass << endl;
+
+            found = true;
+        } else {
+            tempFile << userName << "*" << email << "*" << password << endl;
+        }
+
+    }
+
+    file.close();
+    tempFile.close();
+
+    remove("loginData.txt");
+    rename("temp.txt", "loginData.txt");
+
+    if(found) {
+        cout << "\nPassword Updated Successfully!"<< endl;
+    } else {
+        cout << "\nUser Not Found" << endl;
+    }
+
 }
